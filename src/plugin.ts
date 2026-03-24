@@ -72,20 +72,30 @@ const kittyGraphicsPlugin: any = async () => {
       if (input.tool !== 'bash') {
         return
       }
+      // Skip if already processed by another instance of this plugin
+      // (e.g. loaded from both global and project config). The APC_START
+      // check alone would also catch this since we strip all sequences,
+      // but an explicit marker is more robust if the output gets cloned.
+      const meta = output.metadata as
+        | (Record<string, unknown> & { output?: string })
+        | undefined
+      if (meta?.['__kittyGraphicsProcessed']) {
+        return
+      }
       if (!output.output.includes(APC_START)) {
         return
       }
 
       const result = extractKittyGraphics(output.output)
+      if (meta) {
+        meta['__kittyGraphicsProcessed'] = true
+      }
 
       // Always strip escape sequences from the output text
       output.output = result.cleanedOutput
 
       // Also strip from metadata.output if it exists (shown in Discord
       // during tool execution as a live preview)
-      const meta = output.metadata as
-        | { output?: string; description?: string }
-        | undefined
       if (meta?.output && meta.output.includes(APC_START)) {
         const metaResult = extractKittyGraphics(meta.output)
         meta.output = metaResult.cleanedOutput

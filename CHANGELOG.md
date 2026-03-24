@@ -1,3 +1,8 @@
+## 0.0.5
+
+1. **Duplicate plugin guard** — if the plugin is loaded twice (e.g. from both global and project config), the second instance skips processing. Uses a `__kittyGraphicsProcessed` marker on the metadata object.
+2. **Added `@types/node`** to devDependencies — fixes tsc errors when building from source.
+
 ## 0.0.4
 
 1. **Fixed plugin loader crash** — root export now only contains the plugin initializer function. OpenCode's plugin loader calls every export as a plugin function, so non-function exports (constants, parser) were crashing the loader. Parser and constants are now available via subpath imports (`kitty-graphics-agent/parser`, `kitty-graphics-agent/constants`).
