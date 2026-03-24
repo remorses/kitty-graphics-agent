@@ -1,6 +1,6 @@
 # kitty-graphics-agent
 
-CLIs can't pass images to LLMs without an extra tool call. This package fixes that.
+CLIs can't pass images to LLMs without an extra tool call. This specification fixes that.
 
 ## OpenCode plugin
 
