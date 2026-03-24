@@ -33,13 +33,13 @@ const APC_START = '\x1b_G'
 // fires, so plugin-added attachments must include these fields to satisfy
 // the part state schema validation.
 let idCounter = 0
-function generatePartId(): string {
+function generateId(prefix: string): string {
   const now = BigInt(Date.now()) * BigInt(0x1000) + BigInt(++idCounter)
   const buf = Buffer.alloc(6)
   for (let i = 0; i < 6; i++) {
     buf[i] = Number((now >> BigInt(40 - 8 * i)) & BigInt(0xff))
   }
-  return 'prt_' + buf.toString('hex') + crypto.randomBytes(7).toString('hex')
+  return prefix + '_' + buf.toString('hex') + crypto.randomBytes(7).toString('hex')
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -102,9 +102,9 @@ const kittyGraphicsPlugin: any = async () => {
           type: 'file' as const,
           mime: img.mime,
           url: `data:${img.mime};base64,${img.data}`,
-          id: generatePartId(),
+          id: generateId('prt'),
           sessionID: input.sessionID,
-          messageID: input.callID,
+          messageID: generateId('msg'),
         }))
 
         // Append to existing attachments if any, otherwise create the array
