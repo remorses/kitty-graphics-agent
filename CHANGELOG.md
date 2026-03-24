@@ -1,0 +1,19 @@
+## 0.0.1
+
+1. **Initial release** — intercept Kitty Graphics Protocol images from CLI bash output and inject them into LLM context automatically.
+
+   Add to your `opencode.json` and any CLI that emits Kitty Graphics will have its images passed to the model:
+
+   ```json
+   {
+     "plugin": ["kitty-graphics-agent"]
+   }
+   ```
+
+2. **`AGENT_GRAPHICS=kitty` env var** — injected into every shell session so CLIs know they can emit Kitty Graphics even when stdout is not a TTY. Check it in your CLI:
+
+   ```ts
+   const canEmit = process.stdout.isTTY || process.env.AGENT_GRAPHICS?.includes('kitty')
+   ```
+
+3. **`extractKittyGraphics` parser** — standalone parser for use outside OpenCode. Scans bash output for `\x1b_G...\x1b\\` sequences, strips them from text, and returns extracted PNG images as base64 data URIs.
