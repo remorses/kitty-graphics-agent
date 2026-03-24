@@ -1,3 +1,7 @@
+## 0.0.2
+
+1. **Fixed schema validation errors** — plugin-added attachments now include `id`, `sessionID`, and `messageID` fields required by opencode's part state schema. Previously these were missing because opencode maps them before the `tool.execute.after` hook fires.
+
 ## 0.0.1
 
 1. **Initial release** — intercept Kitty Graphics Protocol images from CLI bash output and inject them into LLM context automatically.

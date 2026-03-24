@@ -1,6 +1,6 @@
 {
   "name": "kitty-graphics-agent",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Intercept Kitty Graphics Protocol images from CLI output and inject them into LLM context. A spec and OpenCode plugin for agent-CLI image passing.",
   "type": "module",
   "main": "./dist/index.js",
